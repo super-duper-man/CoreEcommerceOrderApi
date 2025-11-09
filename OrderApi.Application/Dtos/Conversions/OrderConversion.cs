@@ -29,7 +29,7 @@ namespace OrderApi.Application.Dtos.Conversions
                 return (singleOrder, null);
             }
 
-            if (orders is not null)
+            if (orders is not null || order is null)
             {
                 var _orders = orders.Select(o => new OrderDto(
                         o.Id,
@@ -40,6 +40,10 @@ namespace OrderApi.Application.Dtos.Conversions
                     ));
 
                 return (null, _orders);
+            }
+            else
+            {
+                return (null, null);
             }
             
         }
