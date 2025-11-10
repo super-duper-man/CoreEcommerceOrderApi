@@ -12,7 +12,7 @@ namespace OrderApi.Application.Services
         {
             //Call product api  using HttpClient.
             //Redirect this call to the Api GateWay since product api is not responded.
-            var getproduct = await httpClient.GetAsync($"/api/products/{productId}");
+            var getproduct = await httpClient.GetAsync($"/api/Product/{productId}");
 
             if (!getproduct.IsSuccessStatusCode)
                return null!;
