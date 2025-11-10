@@ -17,14 +17,14 @@ namespace OrderApi.Presentation.Controllers
             var orders = await orderInterface.GetAllAsync();
 
             if (!orders.Any())
-                return NotFound("No rder is in saerver");
+                return NotFound("No rder is in server");
 
             var (_, _orders) = OrderConversion.FromEntity(null, orders);
 
             return _orders!.Any() ? Ok(_orders) : NotFound();
         }
 
-        [HttpGet("client/{clientId: int}")]
+        [HttpGet("client/{clientId:int}")]
         public async Task<ActionResult<OrderDto>> GetClientOrders(int clientId)
         {
             if (clientId <= 0)
@@ -47,7 +47,7 @@ namespace OrderApi.Presentation.Controllers
             return order;
         }
 
-        [HttpGet("details/{orderId: int}")]
+        [HttpGet("details/{orderId:int}")]
         public async Task<ActionResult<IEnumerable<OrderDetailsDto>>> GetOrderDetails(int orderId)
         {
             if (orderId <= 0)
