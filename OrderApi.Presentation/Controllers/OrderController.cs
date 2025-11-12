@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OrderApi.Application.Dtos;
 using OrderApi.Application.Dtos.Conversions;
 using OrderApi.Application.Interfaces;
@@ -9,6 +10,7 @@ namespace OrderApi.Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OrderController(IOrder orderInterface, IOrderService orderService) : ControllerBase
     {
         [HttpGet]
