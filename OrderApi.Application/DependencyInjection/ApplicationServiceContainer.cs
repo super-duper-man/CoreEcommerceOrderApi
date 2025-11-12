@@ -20,7 +20,8 @@ namespace OrderApi.Application.DependencyInjection
             //Create retry strategy
             var retryStrategy = new RetryStrategyOptions()
             {
-                ShouldHandle = new PredicateBuilder().Handle<TaskCanceledException>(),
+                ShouldHandle = new PredicateBuilder().Handle<TaskCanceledException>()
+                                                    .Handle<HttpRequestException>(),
                 BackoffType = DelayBackoffType.Constant,
                 UseJitter = true,
                 MaxRetryAttempts = 3,
