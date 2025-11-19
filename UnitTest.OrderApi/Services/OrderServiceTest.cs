@@ -4,16 +4,21 @@ using System.Net.Http;
 using OrderApi.Application.Dtos;
 using FluentAssertions;
 using System.Net.Http.Json;
+using OrderApi.Domain.Entities;
+using System.Linq.Expressions;
+using OrderApi.Application.Interfaces;
 
 namespace UnitTest.OrderApi.Services
 {
     public class OrderServiceTest
     {
         private readonly IOrderService orderServiceInterface;
+        private readonly IOrder orderInterface;
 
         public OrderServiceTest()
         {
             orderServiceInterface = A.Fake<IOrderService>();
+            orderInterface = A.Fake<IOrder>();
         }
 
         //Create Fake HttpMessageHandler
@@ -80,6 +85,49 @@ namespace UnitTest.OrderApi.Services
 
             //Assert
             result.Should().BeNull();
+        }
+
+        [Fact]
+        public async Task GetUser_ValidUserId_ReturnUser()
+        {
+            //Arrange
+            int userId = 1;
+            var appUserDto = new AppUserDto(1, "testuser", "","","www@test.com", "123", "admin");
+            var _httpClient = CreateFakeHttpClient(appUserDto);
+
+            //Only need httpClien to make call
+            //Specify only httpClient and null to the rest
+            var _orderService = new OrderService(null!, _httpClient, null!);
+
+            //Act
+            var result = await _orderService.GetUser(userId);
+
+            //Assert
+            result.Should().NotBeNull();
+            result.Id.Should().Be(userId);
+            result.Name.Should().Be("testuser");
+        }
+
+        [Fact]
+        public async Task GetOrderByClientId_OrderExists_ReturnOrderDetails()
+        {
+            //Arrange
+            int clinetId = 1;
+            var orders = new List<Order>{
+                new() {Id=1, ProductId=1, ClientId=clinetId, PurchaseQuantity = 2, OrderDate=DateTime.UtcNow },
+                new() {Id=2, ProductId=2, ClientId=clinetId, PurchaseQuantity = 1, OrderDate=DateTime.UtcNow },
+            };
+
+            //mock the GetOrdersBy method
+            A.CallTo(() => orderInterface.GetOrdersAsync(A<Expression<Func<Order, bool>>>.Ignored)).Returns(orders);
+            var orderService = new OrderService(orderInterface, null!, null!);
+
+            //Act 
+            var result = await orderService.GetOrderByClientId(clinetId);
+
+            //Assert
+            result.Should().NotBeNull();
+            result.Should().HaveCount(orders.Count);
         }
     }
 }
