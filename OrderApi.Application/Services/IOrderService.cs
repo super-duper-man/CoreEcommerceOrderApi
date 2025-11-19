@@ -6,5 +6,7 @@ namespace OrderApi.Application.Services
     {
         Task<IEnumerable<OrderDto>> GetOrderByClientId(int clientId);
         Task<OrderDetailsDto> GetOrderDetails(int orderId);
+        Task<AppUserDto> GetUser(int userId);
+        Task<ProductDto> GetProduct(int productId);
     }
 }
