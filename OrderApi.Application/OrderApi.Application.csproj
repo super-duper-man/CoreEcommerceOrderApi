@@ -12,10 +12,12 @@
     <PackageReference Include="Polly" Version="8.6.4" />
     <PackageReference Include="Polly.Core" Version="8.6.4" />
     <PackageReference Include="Polly.Extensions.Http" Version="3.0.0" />
+	<PackageReference Include="MassTransit" Version="8.5.6" />
+	<PackageReference Include="MassTransit.RabbitMQ" Version="8.5.6" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SharedResourceSolution\Resource.Share.Lib\Resource.Share.Lib.csproj" />
+    <ProjectReference Include="..\..\CoreEccomerceMicroService\Resource.Share.Lib\Resource.Share.Lib.csproj" />
     <ProjectReference Include="..\OrderApi.Domain\OrderApi.Domain.csproj" />
   </ItemGroup>
 
